@@ -1,0 +1,170 @@
+.lanche {
+  width: 970px;
+  height: 480px;
+  border: white 6px solid;
+  border-radius: 20px;
+  display: flex;
+  .botaoCardapio {
+    transition: 0.4s;
+    cursor: pointer;
+    position: fixed;
+    border: white 2px solid;
+    top: 10px;
+    left: 10px;
+    width: 150px;
+    height: 44px;
+    color: white;
+    border-radius: 10px;
+    font-size: 30px;
+  }
+  .botaoCardapio:hover {
+    transition: 0.4s;
+    background-color: white;
+    color: #03a9f4;
+  }
+  .imagemLanche {
+    flex: 3;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .paoCima {
+      height: 60px;
+      width: 270px;
+      background-color: #fec888;
+      margin: 8px;
+      border: black 2px solid;
+      border-radius: 50px 50px 0 0;
+    }
+    .bacon {
+      height: 30px;
+      width: 240px;
+      background-color: #db3221;
+      margin: 8px;
+    }
+    .ovo {
+      height: 20px;
+      width: 240px;
+      background-color: white;
+      margin: 8px;
+    }
+    .queijo {
+      height: 10px;
+      width: 240px;
+      background-color: #ffa200;
+      margin: 8px;
+    }
+    .hamburguer {
+      height: 30px;
+      width: 240px;
+      background-color: #4b1414;
+      margin: 8px;
+    }
+    .alface {
+      height: 20px;
+      width: 240px;
+      background-color: green;
+      margin: 8px;
+    }
+    .paoBaixo {
+      height: 40px;
+      width: 270px;
+      background-color: #fec888;
+      margin: 8px;
+      border: black 2px solid;
+      border-radius: 0 0 30px 30px;
+    }
+  }
+  .informacoesLanche {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    .nomeLanche {
+      margin-top: 20px;
+      font-size: 50px;
+      color: white;
+    }
+    .listaIngredientes {
+      .ingrediente {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .remover {
+          cursor: pointer;
+          transition: 0.4s;
+          height: 30px;
+          width: 30px;
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: #c74e4e 3px solid;
+          color: #c74e4e;
+          border-radius: 10px;
+          font-size: 30px;
+          font-family: monospace;
+        }
+        .remover:hover {
+          transition: 0.4s;
+          background-color: #c74e4e;
+          color: white;
+        }
+        .nomeIngrediente {
+          border: white 3px solid;
+          border-radius: 8px;
+          margin: 5px;
+          width: 200px;
+          height: 30px;
+          color: white;
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .acrescentar {
+          cursor: pointer;
+          transition: 0.4s;
+          height: 30px;
+          width: 30px;
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: #62ff62 3px solid;
+          color: #62ff62;
+          border-radius: 10px;
+          font-size: 30px;
+          font-family: monospace;
+        }
+        .acrescentar:hover {
+          transition: 0.4s;
+          background-color: #62ff62;
+          color: white;
+        }
+      }
+    }
+    .botaoCalcularPreco {
+      transition: 0.4s;
+      cursor: pointer;
+      margin-bottom: 20px;
+      width: 340px;
+      height: 60px;
+      font-size: 30px;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      border-radius: 10px;
+      border: white 5px solid;
+      color: white;
+    }
+    .botaoCalcularPreco:hover {
+      transition: 0.4s;
+      background-color: white;
+      color: #03a9f4;
+    }
+  }
+}
