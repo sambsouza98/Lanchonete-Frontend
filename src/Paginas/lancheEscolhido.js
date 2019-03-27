@@ -6,7 +6,8 @@ class lancheEscolhido extends Component {
 
     state ={
         lanche: {nome: ''},
-        ingredientes: []
+        listaIngredientes: [],
+        preco: null
     }
 
     componentWillMount() {
@@ -26,9 +27,51 @@ class lancheEscolhido extends Component {
         axios.get('http://localhost:8080/Ingredientes')
             .then((retorno) => {
                 this.setState({
-                    ingredientes: retorno.data
+                    listaIngredientes: retorno.data
                 })
             })
+    }
+
+    adicionarAoCarrinho = () => {
+        axios.post('http://localhost:8080/Pedido', {
+            ingredientes: this.state.lanche.ingredientes
+        }).then((retorno) => {
+            this.setState({
+                preco: retorno.data
+            })
+        })
+    }
+
+    removerIngrediente = (id) => {
+        let ingredientes = this.state.lanche.ingredientes;
+        let posicaoIngrediente = ingredientes.findIndex(ingrediente => ingrediente === id);
+
+        ingredientes = ingredientes.filter((ingrediente, indice) => {
+            return indice !== posicaoIngrediente;
+        });
+
+        this.setState({
+            preco: null,
+            lanche: {
+                ...this.state.lanche,
+                ingredientes
+            }
+        })
+
+    }
+
+    acrescentarIngrediente = (id) => {
+        let ingredientes = this.state.lanche.ingredientes ? this.state.lanche.ingredientes : [];
+
+        ingredientes.push(id);
+
+        this.setState({
+            preco: null,
+            lanche: {
+                ...this.state.lanche,
+                ingredientes
+            }
+        })
     }
 
 
@@ -52,19 +95,28 @@ class lancheEscolhido extends Component {
                         {this.state.lanche.nome}
                     </div>
                     <div className="listaIngredientes">
-                        {this.state.ingredientes.map(ingrediente => (
+                        {this.state.listaIngredientes.map(ingrediente => (
                                 <div className="ingrediente">
-                                    <div className="remover"> - </div>
+                                    { this.state.lanche.ingredientes && this.state.lanche.ingredientes.includes(ingrediente.id) &&
+                                        <div className="remover" onClick={() => this.removerIngrediente(ingrediente.id)}> - </div>
+                                    }
                                     <div className="nomeIngrediente">
                                         {ingrediente.nome}
                                     </div>
-                                    <div className="acrescentar"> + </div>
+                                    <div className="acrescentar" onClick={() => this.acrescentarIngrediente(ingrediente.id)}> + </div>
                                 </div>
                             ))}
                     </div>
-                    <div className="botaoCalcularPreco" >
-                        Calcular Preco
-                    </div>
+                    {!this.state.preco ?
+                        <div className="botaoCalcularPreco" onClick={() => this.adicionarAoCarrinho()}>
+                            Calcular Preço
+                        </div>
+                        :
+                        <div className="botaoCalcularPreco">
+                            <div>R$ {this.state.preco}</div>
+                            Adicionar ao Carrinho
+                        </div>
+                    }
                 </div>
             </div>
         );
