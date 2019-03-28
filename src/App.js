@@ -3,11 +3,13 @@ import './App.css';
 import landingPage from './Paginas/landingPage';
 import cardapio from './Paginas/cardapio';
 import lancheEscolhido from './Paginas/lancheEscolhido';
+import pedidoRealizado from './Paginas/pedidoRealizado';
 
 const PAGINAS = {
     'INICIO': landingPage,
     'CARDAPIO': cardapio,
-    'LANCHESELECIONADO': lancheEscolhido
+    'LANCHESELECIONADO': lancheEscolhido,
+    'PEDIDOREALIZADO': pedidoRealizado,
 }
 
 class App extends Component {

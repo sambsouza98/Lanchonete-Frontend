@@ -112,6 +112,10 @@
           background-color: #c74e4e;
           color: white;
         }
+        .hidden {
+          transition: 0s !important;
+          visibility: hidden;
+        }
         .nomeIngrediente {
           border: white 3px solid;
           border-radius: 8px;
@@ -123,6 +127,22 @@
           display: flex;
           justify-content: center;
           align-items: center;
+        }
+        .contadorQuantidade {
+          cursor: pointer;
+          transition: 0.4s;
+          height: 30px;
+          width: 30px;
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: white 3px solid;
+          color: white;
+          margin: 0 5px 0 0;
+          border-radius: 10px;
+          font-size: 30px;
+          font-family: monospace;
         }
         .acrescentar {
           cursor: pointer;
@@ -151,7 +171,7 @@
       cursor: pointer;
       margin-bottom: 20px;
       width: 340px;
-      height: 60px;
+      height: 80px;
       font-size: 30px;
       text-align: center;
       align-items: center;
@@ -160,6 +180,9 @@
       border-radius: 10px;
       border: white 5px solid;
       color: white;
+      .preco {
+        width: 130px;
+      }
     }
     .botaoCalcularPreco:hover {
       transition: 0.4s;

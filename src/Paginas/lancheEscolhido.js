@@ -5,8 +5,8 @@ import './lancheEscolhido.scss';
 class lancheEscolhido extends Component {
 
     state ={
-        lanche: {nome: ''},
-        listaIngredientes: [],
+        lanche: {nome: '', ingredientes: {}},
+        listaIngredientes: {},
         preco: null
     }
 
@@ -19,22 +19,23 @@ class lancheEscolhido extends Component {
                         lanche: retorno.data
                     })
                 })
-        } else {
-            this.setState({
-                lanche: {nome: 'Personalizado'}
-            })
         }
         axios.get('http://localhost:8080/Ingredientes')
             .then((retorno) => {
                 this.setState({
                     listaIngredientes: retorno.data
                 })
+                if(!this.props.idLanche){
+                    this.setState({
+                        lanche: {nome: 'Personalizado', ingredientes: retorno.data}
+                    })
+                }
             })
     }
 
     adicionarAoCarrinho = () => {
         axios.post('http://localhost:8080/Pedido', {
-            ingredientes: this.state.lanche.ingredientes
+            lanche: this.state.lanche
         }).then((retorno) => {
             this.setState({
                 preco: retorno.data
@@ -42,40 +43,41 @@ class lancheEscolhido extends Component {
         })
     }
 
-    removerIngrediente = (id) => {
-        let ingredientes = this.state.lanche.ingredientes;
-        let posicaoIngrediente = ingredientes.findIndex(ingrediente => ingrediente === id);
-
-        ingredientes = ingredientes.filter((ingrediente, indice) => {
-            return indice !== posicaoIngrediente;
-        });
-
+    removerIngrediente = (id, ingrediente) => {
         this.setState({
-            preco: null,
             lanche: {
                 ...this.state.lanche,
-                ingredientes
-            }
+                ingredientes: {
+                    ...this.state.lanche.ingredientes,
+                    [id]: {
+                        ...this.state.lanche.ingredientes[id],
+                        quantidade: ingrediente.quantidade - 1
+                    }
+                }
+            },
+            preco: null
         })
-
     }
 
-    acrescentarIngrediente = (id) => {
-        let ingredientes = this.state.lanche.ingredientes ? this.state.lanche.ingredientes : [];
-
-        ingredientes.push(id);
-
+    acrescentarIngrediente = (id, ingrediente) => {
         this.setState({
-            preco: null,
             lanche: {
                 ...this.state.lanche,
-                ingredientes
-            }
+                ingredientes: {
+                    ...this.state.lanche.ingredientes,
+                    [id]: {
+                        ...this.state.lanche.ingredientes[id],
+                        quantidade: ingrediente.quantidade + 1
+                    }
+                }
+            },
+            preco: null
         })
     }
 
 
     render() {
+        let ingredientesLanche = this.state.lanche.ingredientes;
         return (
             <div className="lanche">
                 <div className="botaoCardapio" onClick={() => this.props.trocaPagina('CARDAPIO')}>
@@ -95,15 +97,14 @@ class lancheEscolhido extends Component {
                         {this.state.lanche.nome}
                     </div>
                     <div className="listaIngredientes">
-                        {this.state.listaIngredientes.map(ingrediente => (
+                        {Object.keys(this.state.lanche.ingredientes).length > 0 && Object.keys(this.state.listaIngredientes).map(ingrediente => (
                                 <div className="ingrediente">
-                                    { this.state.lanche.ingredientes && this.state.lanche.ingredientes.includes(ingrediente.id) &&
-                                        <div className="remover" onClick={() => this.removerIngrediente(ingrediente.id)}> - </div>
-                                    }
+                                    <div className={"remover" + (ingredientesLanche[ingrediente].quantidade !== 0 ? '' : ' hidden')} onClick={() => this.removerIngrediente(ingrediente, ingredientesLanche[ingrediente])}> - </div>
                                     <div className="nomeIngrediente">
-                                        {ingrediente.nome}
+                                        {ingredientesLanche[ingrediente].nome}
                                     </div>
-                                    <div className="acrescentar" onClick={() => this.acrescentarIngrediente(ingrediente.id)}> + </div>
+                                    <div className="contadorQuantidade">{ingredientesLanche[ingrediente].quantidade}</div>
+                                    <div className="acrescentar" onClick={() => this.acrescentarIngrediente(ingrediente, ingredientesLanche[ingrediente])}> + </div>
                                 </div>
                             ))}
                     </div>
@@ -112,9 +113,9 @@ class lancheEscolhido extends Component {
                             Calcular Preço
                         </div>
                         :
-                        <div className="botaoCalcularPreco">
-                            <div>R$ {this.state.preco}</div>
-                            Adicionar ao Carrinho
+                        <div className="botaoCalcularPreco" onClick={() => this.props.trocaPagina('PEDIDOREALIZADO')}>
+                            <div className={"preco"}>R$ {this.state.preco}</div>
+                            Realizar Pedido
                         </div>
                     }
                 </div>
